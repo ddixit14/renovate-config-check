@@ -17,6 +17,7 @@ def validate_regex_patterns(configuration):
             if 'fileMatch' in manager:
                 for file_regex in manager['fileMatch']:
                     if not is_valid_regex(file_regex):
+                        print(file_regex)
                         print(f"Error: Invalid regex pattern '{file_regex}' in custom manager 'fileMatch'.")
                         return
 
