@@ -17,7 +17,6 @@ def validate_regex_patterns(configuration):
             if 'fileMatch' in manager:
                 for file_regex in manager['fileMatch']:
                     if not is_valid_regex(file_regex):
-                        print(file_regex)
                         print(f"Error: Invalid regex pattern '{file_regex}' in custom manager 'fileMatch'.")
                         return
 
@@ -36,12 +35,15 @@ config_file_path = "renovate.json"
 try:
     # Read and parse the Renovate configuration file
     with open(config_file_path, 'r') as file:
-        configuration = json.load(file)
+        try:
+            configuration = json.load(file)
+        except json.JSONDecodeError as e:
+            print(f"Error: Unable to parse Renovate configuration. {e}")
+            exit(1)
 
     # Validate regex patterns in custom managers
     validate_regex_patterns(configuration)
 
 except FileNotFoundError:
     print(f"Error: Renovate configuration file not found at {config_file_path}")
-except json.JSONDecodeError as e:
-    print(f"Error: Unable to parse Renovate configuration. {e}")
+    exit(1)
