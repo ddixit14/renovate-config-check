@@ -9,27 +9,36 @@ def is_valid_regex(pattern):
         return False
 
 def validate_regex_patterns(configuration):
-    # Check if 'regexPatterns' key is present in the configuration
-    if 'regexPatterns' in configuration:
-        regex_patterns = configuration['regexPatterns']
+    if 'customManagers' in configuration:
+        custom_managers = configuration['customManagers']
 
-        # Validate each regex pattern
-        for pattern_key, pattern_value in regex_patterns.items():
-            if not is_valid_regex(pattern_value):
-                print(f"Error: Invalid regex pattern '{pattern_value}' for key '{pattern_key}'.")
+        for manager in custom_managers:
+            # Validate 'fileMatch' regex patterns
+            if 'fileMatch' in manager:
+                for file_regex in manager['fileMatch']:
+                    if not is_valid_regex(file_regex):
+                        print(f"Error: Invalid regex pattern '{file_regex}' in custom manager 'fileMatch'.")
+                        return
+
+            # Validate 'matchStrings' regex patterns
+            if 'matchStrings' in manager:
+                for regex_pattern in manager['matchStrings']:
+                    if not is_valid_regex(regex_pattern):
+                        print(f"Error: Invalid regex pattern '{regex_pattern}' in custom manager 'matchStrings'.")
+                        return
+
+    print("Validation complete. No errors found.")
 
 # Replace this with the path to your Renovate configuration file
-config_file_path = "renovate.json"
+config_file_path = "/path/to/your/renovate.json"
 
 try:
     # Read and parse the Renovate configuration file
     with open(config_file_path, 'r') as file:
         configuration = json.load(file)
 
-    # Validate regex patterns
+    # Validate regex patterns in custom managers
     validate_regex_patterns(configuration)
-
-    print("Validation complete. No errors found.")
 
 except FileNotFoundError:
     print(f"Error: Renovate configuration file not found at {config_file_path}")
