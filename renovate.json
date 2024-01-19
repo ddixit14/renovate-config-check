@@ -1,0 +1,183 @@
+{
+  "extends": [
+    "config:recommended"
+  ],
+  "dependencyDashboard": true,
+  "ignoreDeps": [
+    "rules_pkg"
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^gax-java/dependencies\\.properties$"
+      ],
+      "matchStrings": [
+        "=(?<depName>.+\\:.+?):(?<currentValue>.+?)\\n"
+      ],
+      "datasourceTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^gax-java/dependencies\\.properties$"
+      ],
+      "matchStrings": [
+        "version\\.com_google_protobuf=(?<currentValue>.+?)\\n"
+      ],
+      "depNameTemplate": "com.google.protobuf:protobuf-java",
+      "datasourceTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^gax-java/dependencies\\.properties$"
+      ],
+      "matchStrings": [
+        "version\\.google_java_format=(?<currentValue>.+?)\\n"
+      ],
+      "depNameTemplate": "com.google.googlejavaformat:google-java-format",
+      "datasourceTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^gax-java/dependencies\\.properties$"
+      ],
+      "matchStrings": [
+        "version\\.io_grpc=(?<currentValue>.+?)\\n"
+      ],
+      "depNameTemplate": "io.grpc:grpc-core",
+      "datasourceTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": ["^.kokoro/presubmit/graalvm-native.*.cfg$"],
+      "matchStrings": ["value: \"gcr.io/cloud-devrel-kokoro-resources/graalvm:(?<currentValue>.*?)\"",
+        "value: \"gcr.io/cloud-devrel-kokoro-resources/graalvm17:(?<currentValue>.*?)\""],
+      "depNameTemplate": "ghcr.io/graalvm/graalvm-ce",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "fileMatch": [
+        "^.cloudbuild/*"
+      ],
+      "matchStrings": [
+        "_JAVA_SHARED_CONFIG_VERSION: \"(?<currentValue>.+?)\""
+      ],
+      "depNameTemplate": "com.google.cloud:google-cloud-shared-config",
+      "datasourceTemplate": "maven"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": [
+        "major"
+      ],
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.guava:"
+      ],
+      "versioning": "docker"
+    },
+    {
+      "matchPackagePatterns": [
+        "*"
+      ],
+      "semanticCommitType": "deps",
+      "semanticCommitScope": null
+    },
+    {
+      "matchPackagePatterns": [
+        "^org.apache.maven",
+        "^org.jacoco:",
+        "^org.codehaus.mojo:",
+        "^org.sonatype.plugins:",
+        "^com.coveo:",
+        "^com.google.cloud:google-cloud-shared-config"
+      ],
+      "semanticCommitType": "build",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchPackagePatterns": [
+        "^{{metadata['repo']['distribution_name']}}",
+        "^com.google.cloud:libraries-bom",
+        "^com.google.cloud.samples:shared-configuration"
+      ],
+      "semanticCommitType": "chore",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchPackagePatterns": [
+        "^junit:junit",
+        "^com.google.truth:truth",
+        "^org.mockito:mockito-core",
+        "^org.objenesis:objenesis",
+        "^com.google.cloud:google-cloud-conformance-tests"
+      ],
+      "semanticCommitType": "test",
+      "semanticCommitScope": "deps"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.cloud:google-cloud-"
+      ],
+      "ignoreUnstable": false
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.fasterxml.jackson.core"
+      ],
+      "groupName": "jackson dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.protobuf"
+      ],
+      "groupName": "Protobuf dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^io.grpc"
+      ],
+      "groupName": "gRPC dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.auth"
+      ],
+      "groupName": "Google Auth Library dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.api"
+      ],
+      "groupName": "Google API dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^com.google.http-client"
+      ],
+      "groupName": "Google HTTP Client dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^io.opencensus"
+      ],
+      "groupName": "OpenCensus dependencies"
+    },
+    {
+      "matchPackagePatterns": [
+        "^io.netty"
+      ],
+      "groupName": "Netty dependencies"
+    }
+  ]
+}
