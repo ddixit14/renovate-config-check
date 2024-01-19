@@ -31,7 +31,7 @@ def validate_regex_patterns(configuration):
     print("Validation complete. No errors found.")
 
 # Replace this with the path to your Renovate configuration file
-config_file_path = "/path/to/your/renovate.json"
+config_file_path = "renovate.json"
 
 try:
     # Read and parse the Renovate configuration file
